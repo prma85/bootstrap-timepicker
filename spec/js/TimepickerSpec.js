@@ -4,18 +4,12 @@ describe('Timepicker feature', function() {
   var $input1,
     $input2,
     $input3,
-    $input4,
-    $input5,
     $timepicker1,
     $timepicker2,
     $timepicker3,
-    $timepicker4,
-    $timepicker5,
     tp1,
     tp2,
-    tp3,
-    tp4,
-    tp5;
+    tp3;
 
   beforeEach(function () {
     loadFixtures('timepicker.html');
@@ -42,18 +36,6 @@ describe('Timepicker feature', function() {
       maxHours: 100
     });
     tp3 = $timepicker3.data('timepicker');
-
-    $input4 = $('#timepicker-z-index');
-    $timepicker4 = $input4.timepicker();
-    tp4 = $timepicker4.data('timepicker');
-
-    $input5 = $('#timepicker-snapper');
-    $timepicker5 = $input5.timepicker({
-      snapToStep: true,
-      minuteStep: 30,
-      defaultTime: '12:00 AM'
-    });
-    tp5 = $timepicker5.data('timepicker');
   });
 
   afterEach(function () {
@@ -66,17 +48,9 @@ describe('Timepicker feature', function() {
     if ($input3.data('timepicker') !== undefined) {
       $input3.data('timepicker').remove();
     }
-    if ($input4.data('timepicker') !== undefined) {
-      $input4.data('timepicker').remove();
-    }
-    if ($input5.data('timepicker') !== undefined) {
-      $input5.data('timepicker').remove();
-    }
     $input1.remove();
     $input2.remove();
     $input3.remove();
-    $input4.remove();
-    $input5.remove();
   });
 
   it('should be available on the jquery object', function() {
@@ -91,18 +65,15 @@ describe('Timepicker feature', function() {
     expect(tp1.defaultTime).toBeTruthy();
     expect(tp1.minuteStep).toBe(15);
     expect(tp1.secondStep).toBe(15);
-    expect(tp1.snapToStep).toBe(false);
     expect(tp1.disableFocus).toBe(false);
     expect(tp1.showSeconds).toBe(false);
     expect(tp1.showInputs).toBe(true);
     expect(tp1.showMeridian).toBe(true);
     expect(tp1.template).toBe('dropdown');
-    expect(tp1.appendWidgetTo).toBe('body');
     expect(tp1.modalBackdrop).toBe(false);
     expect(tp1.modalBackdrop).toBe(false);
     expect(tp1.isOpen).toBe(false);
     expect(tp1.showWidgetOnAddonClick).toBe(true);
-    expect(tp1.maxHours).toBe(24);
   });
 
   it('should allow user to configure defaults', function() {
@@ -229,7 +200,7 @@ describe('Timepicker feature', function() {
     expect(tp3.getTime()).toBe('1:00:00');
 
     tp1.setTime('13');
-    expect(tp1.getTime()).toBe('1:00 PM');
+    expect(tp1.getTime()).toBe('12:00 AM');
     tp3.setTime('13');
     expect(tp3.getTime()).toBe('13:00:00');
 
@@ -259,14 +230,11 @@ describe('Timepicker feature', function() {
     expect(tp3.getTime()).toBe('10:20:10', 'setTime with 102010 on tp3');
 
     tp1.setTime('2320');
-    expect(tp1.getTime()).toBe('11:20 PM', 'setTime with 2320 on tp1');
+    expect(tp1.getTime()).toBe('12:20 AM', 'setTime with 2320 on tp1');
     tp3.setTime('2320');
     expect(tp3.getTime()).toBe('23:20:00', 'setTime with 2320 on tp3');
 
     tp3.setTime('0:00');
-    expect(tp3.getTime()).toBe('0:00:00', 'setTime with 0:00 on tp3');
-
-    tp3.setTime('12:00 AM');
     expect(tp3.getTime()).toBe('0:00:00', 'setTime with 0:00 on tp3');
   });
 
@@ -429,6 +397,7 @@ describe('Timepicker feature', function() {
     expect(tp2.minute).toBe(30);
   });
 
+
   it('should increment hour if minutes increment past 59', function() {
     $input1.val('11:55 AM');
     tp1.updateFromElementVal();
@@ -467,6 +436,7 @@ describe('Timepicker feature', function() {
     expect(tp2.second).toBe(30);
   });
 
+
   it('should increment minute by 1 if seconds increment past 59', function() {
     $input2.val('11:55:30 AM');
     tp2.updateFromElementVal();
@@ -483,7 +453,7 @@ describe('Timepicker feature', function() {
       hideEvents++;
     });
 
-    $input1.parents('div').find('.input-group-addon').trigger('click');
+    $input1.parents('div').find('.add-on').trigger('click');
     $('body').trigger('mousedown');
 
     expect(hideEvents).toBe(1);
@@ -491,7 +461,6 @@ describe('Timepicker feature', function() {
     tp1.remove();
     tp2.remove();
     tp3.remove();
-    tp4.remove();
 
     $('body').trigger('click');
     expect(hideEvents).toBe(1);
@@ -504,30 +473,19 @@ describe('Timepicker feature', function() {
     tp1.updateElement();
 
     $input1.timepicker('setTime', null);
+//    tp1.update();
     expect(tp1.getTime()).toBe('');
   });
 
-  it('should snap minutes to multiple of step when using setTime', function() {
-    tp5.setTime('2:33 AM');
-    expect(tp5.getTime()).toBe('2:30 AM');
-  });
-
-  it('should place timepicker on top of parents', function() {
-    tp4.showWidget();
-    $('body').find('.bootstrap-timepicker-widget').css('position', 'relative');
-    expect($('body').find('.bootstrap-timepicker-widget').css('z-index')).toBe('1010');
-  });
 
   it('should not have the widget in the DOM if remove method is called', function() {
     tp1.showWidget();
     tp2.showWidget();
     tp3.showWidget();
-    tp4.showWidget();
     expect($('body')).toContain('.bootstrap-timepicker-widget');
     tp1.remove();
     tp2.remove();
     tp3.remove();
-    tp4.remove();
     expect($('body')).not.toContain('.bootstrap-timepicker-widget');
   });
 

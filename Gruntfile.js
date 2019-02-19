@@ -17,13 +17,12 @@ module.exports = function(grunt) {
     'bump': {
       options: {
         push: false,
-        files: ['package.json', 'bower.json', 'composer.json'],
-        commitFiles: ['package.json', 'bower.json', 'composer.json']
+        files: ['package.json', 'bower.json', 'composer.json']
       }
     },
     'jasmine': {
       build: {
-        src : ['spec/js/libs/jquery/dist/jquery.min.js', 'spec/js/libs/bootstrap/dist/js/bootstrap.min.js', 'spec/js/libs/autotype/index.js', 'js/bootstrap-timepicker.js'],
+        src : ['spec/js/libs/jquery/jquery.min.js', 'spec/js/libs/bootstrap/js/bootstrap.min.js', 'spec/js/libs/autotype/index.js', 'js/bootstrap-timepicker.js'],
         options: {
           specs : 'spec/js/*Spec.js',
           helpers : 'spec/js/helpers/*.js',
@@ -72,7 +71,7 @@ module.exports = function(grunt) {
           paths: ['css']
         },
         files: {
-          'css/bootstrap-timepicker.css': ['css/*.less']
+          'css/bootstrap-timepicker.css': ['less/*.less']
         }
       },
       prod: {
@@ -81,7 +80,7 @@ module.exports = function(grunt) {
           yuicompress: true
         },
         files: {
-          'css/bootstrap-timepicker.min.css': ['css/*.less']
+          'css/bootstrap-timepicker.min.css': ['less/*.less']
         }
       }
     },
@@ -89,7 +88,7 @@ module.exports = function(grunt) {
       options: {
         banner: '/*! <%= pkg.name %> v<%= pkg.version %> \n' +
           '* http://jdewit.github.com/bootstrap-timepicker \n' +
-          '* Copyright (c) <%= grunt.template.today("yyyy") %> Joris de Wit and bootstrap-timepicker contributors \n' +
+          '* Copyright (c) <%= grunt.template.today("yyyy") %> Joris de Wit \n' +
           '* MIT License \n' +
           '*/',
         report: 'min'
@@ -108,7 +107,7 @@ module.exports = function(grunt) {
         }
       },
       less: {
-        files: ['css/timepicker.less'],
+        files: ['less/timepicker.less'],
         tasks: ['less:dev'],
         options: {
           livereload: true
@@ -120,5 +119,4 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['jshint', 'jasmine', 'less:dev']);
   grunt.registerTask('test', ['jasmine', 'jshint']);
   grunt.registerTask('compile', ['jshint', 'jasmine', 'uglify', 'less:prod']);
-  grunt.registerTask('compileAll', ['jshint', 'jasmine', 'uglify', 'less:dev', 'less:prod']);
 };
