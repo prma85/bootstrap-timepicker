@@ -1,5 +1,5 @@
 {
-    "name": "bootstrap-time-picker",
+    "name": "@prma85/bootstrap-timepicker",
     "description": "Timepicker widget for Twitter Bootstrap 2.* with autotype 0.50",
     "version": "0.3.1",
     "license": "MIT",
